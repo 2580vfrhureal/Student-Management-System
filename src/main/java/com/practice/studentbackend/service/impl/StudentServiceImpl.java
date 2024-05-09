@@ -9,6 +9,9 @@ import com.practice.studentbackend.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service // create bean
 @AllArgsConstructor
 public class StudentServiceImpl implements StudentService {
@@ -29,5 +32,12 @@ public class StudentServiceImpl implements StudentService {
                 .orElseThrow(()->
                         new ResourceNotFoundException("Student is not exist with given id: " + studentId));
         return StudentMapper.mapToStudentDto(student);
+    }
+
+    @Override
+    public List<StudentDto> getAllStudents() {
+        List<Student> students = studentRepository.findAll();
+        return students.stream().map((student) -> StudentMapper.mapToStudentDto(student))
+                .collect(Collectors.toList());
     }
 }
