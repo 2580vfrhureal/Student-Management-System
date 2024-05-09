@@ -17,7 +17,7 @@ public class StudentController {
 
     private StudentService studentService;
 
-    // build add student REST api
+    // Build add student REST api
     @PostMapping
     public ResponseEntity<StudentDto> createStudent(@RequestBody StudentDto studentDto){
 
@@ -25,17 +25,32 @@ public class StudentController {
         return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
     }
 
-    // build Get Student REST api
+    // Build Get Student REST api
     @GetMapping("{id}")
     public ResponseEntity<StudentDto> getStudentById(@PathVariable("id") Long studentId){
         StudentDto studentDto = studentService.getStudentById(studentId);
         return ResponseEntity.ok(studentDto);
     }
 
-    // build Get ALL Students REST api
+    // Build Get ALL Students REST api
     @GetMapping
     public ResponseEntity<List<StudentDto>> getAllStudents(){
         List<StudentDto> students = studentService.getAllStudents();
         return ResponseEntity.ok(students);
     }
+
+    // Build Update Student REST api
+    @PutMapping("{id}")
+    public ResponseEntity<StudentDto> updateStudent(@PathVariable("id") Long studentId,@RequestBody StudentDto updatedStudent){
+        StudentDto studentDto = studentService.updateStudent(studentId,updatedStudent);
+        return ResponseEntity.ok(studentDto);
+    }
+
+    // Build Delete Student REST api
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteStudent(@PathVariable("id") Long studentId){
+        studentService.deleteStudent(studentId);
+        return ResponseEntity.ok("Student deleted successfully!");
+    }
+
 }
